@@ -5,3 +5,8 @@ rembg
 onnxruntime
 pillow
 python-magic
+sqlalchemy
+passlib[bcrypt]
+python-jose[cryptography]
+pydantic[email]
+google-auth
