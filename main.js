@@ -72,7 +72,8 @@ function showPreview(file) {
         const formData = new FormData();
         formData.append('file', uploadedImage);
 
-        const response = await fetch('/remove-bg', {
+        const response = await fetch(  'https://scaleai-production-4db1.up.railway.app/remove-bg',
+ {
           method: 'POST',
           body: formData
         });
