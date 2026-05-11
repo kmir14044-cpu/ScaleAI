@@ -131,98 +131,132 @@ function showAuthError(msg) {
 }
 
 // ─── GOOGLE AUTH (requires Google Identity Services script) ──────────────────
-
 googleAuthBtn.addEventListener("click", () => {
   if (!GOOGLE_CLIENT_ID || GOOGLE_CLIENT_ID === "YOUR_GOOGLE_CLIENT_ID") {
     showAuthError("Google Sign-In is not configured yet.");
     return;
   }
 
-  if (!window.google?.accounts?.id) {
-    showAuthError("Google Sign-In is still loading, please wait.");
-    return;
-  }
-
-  window.google.accounts.id.prompt();
-});
-
-async function handleGoogleCredentialResponse(response) {
-  const credential = response?.credential;
-  if (!credential) {
-    showAuthError("Google Sign-In failed. Please try again.");
-    return;
-  }
-
-  googleAuthBtn.disabled = true;
-  try {
-    const res = await fetch(API + "/auth/google", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ credential })
-    });
-
-    const data = await res.json();
-    if (!res.ok) {
-      showAuthError(data.detail || "Google Sign-In failed.");
-      return;
-    }
-
-    localStorage.setItem("clarify_token", data.token);
-    setUser(data.user);
-    closeAuth();
-  } catch (err) {
-    showAuthError("Network error. Please try again.");
-  } finally {
-    googleAuthBtn.disabled = false;
-  }
-}
-
-function initGoogleAuth() {
-  if (!GOOGLE_CLIENT_ID || GOOGLE_CLIENT_ID === "YOUR_GOOGLE_CLIENT_ID") {
-    return;
-  }
-
-  if (!window.google?.accounts?.id) {
-    return;
-  }
-
-  if (googleAuthInitialized) {
-    return;
-  }
-
-  window.google.accounts.id.initialize({
+  const client = window.google.accounts.oauth2.initTokenClient({
     client_id: GOOGLE_CLIENT_ID,
-    callback: handleGoogleCredentialResponse,
-    cancel_on_tap_outside: true,
-  });
-  googleAuthInitialized = true;
-}
-
-function ensureGoogleAuthReady() {
-  initGoogleAuth();
-  if (googleAuthInitialized) {
-    return;
-  }
-
-  const interval = setInterval(() => {
-    if (window.google?.accounts?.id) {
-      initGoogleAuth();
-      if (googleAuthInitialized) {
-        clearInterval(interval);
+    scope: "email profile openid",
+    callback: async (tokenResponse) => {
+      if (tokenResponse.error) {
+        showAuthError("Google Sign-In failed.");
+        return;
+      }
+      googleAuthBtn.disabled = true;
+      try {
+        const res = await fetch(API + "/auth/google-token", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ access_token: tokenResponse.access_token })
+        });
+        const data = await res.json();
+        if (!res.ok) { showAuthError(data.detail || "Google Sign-In failed."); return; }
+        localStorage.setItem("clarify_token", data.token);
+        setUser(data.user);
+        closeAuth();
+      } catch (e) {
+        showAuthError("Network error. Please try again.");
+      } finally {
+        googleAuthBtn.disabled = false;
       }
     }
-  }, 100);
-
-  setTimeout(() => clearInterval(interval), 5000);
-}
-
-if (document.readyState === "complete" || document.readyState === "interactive") {
-  ensureGoogleAuthReady();
-} else {
-  document.addEventListener("DOMContentLoaded", () => {
-    ensureGoogleAuthReady();
   });
-}
+  client.requestAccessToken();
+});
+// googleAuthBtn.addEventListener("click", () => {
+//   if (!GOOGLE_CLIENT_ID || GOOGLE_CLIENT_ID === "YOUR_GOOGLE_CLIENT_ID") {
+//     showAuthError("Google Sign-In is not configured yet.");
+//     return;
+//   }
+
+//   if (!window.google?.accounts?.id) {
+//     showAuthError("Google Sign-In is still loading, please wait.");
+//     return;
+//   }
+
+//   window.google.accounts.id.prompt();
+// });
+
+// async function handleGoogleCredentialResponse(response) {
+//   const credential = response?.credential;
+//   if (!credential) {
+//     showAuthError("Google Sign-In failed. Please try again.");
+//     return;
+//   }
+
+//   googleAuthBtn.disabled = true;
+//   try {
+//     const res = await fetch(API + "/auth/google", {
+//       method: "POST",
+//       headers: { "Content-Type": "application/json" },
+//       body: JSON.stringify({ credential })
+//     });
+
+//     const data = await res.json();
+//     if (!res.ok) {
+//       showAuthError(data.detail || "Google Sign-In failed.");
+//       return;
+//     }
+
+//     localStorage.setItem("clarify_token", data.token);
+//     setUser(data.user);
+//     closeAuth();
+//   } catch (err) {
+//     showAuthError("Network error. Please try again.");
+//   } finally {
+//     googleAuthBtn.disabled = false;
+//   }
+// }
+
+// function initGoogleAuth() {
+//   if (!GOOGLE_CLIENT_ID || GOOGLE_CLIENT_ID === "YOUR_GOOGLE_CLIENT_ID") {
+//     return;
+//   }
+
+//   if (!window.google?.accounts?.id) {
+//     return;
+//   }
+
+//   if (googleAuthInitialized) {
+//     return;
+//   }
+
+//   window.google.accounts.id.initialize({
+//     client_id: GOOGLE_CLIENT_ID,
+//     callback: handleGoogleCredentialResponse,
+//     cancel_on_tap_outside: true,
+//   });
+//   googleAuthInitialized = true;
+// }
+
+// function ensureGoogleAuthReady() {
+//   initGoogleAuth();
+//   if (googleAuthInitialized) {
+//     return;
+//   }
+
+//   const interval = setInterval(() => {
+//     if (window.google?.accounts?.id) {
+//       initGoogleAuth();
+//       if (googleAuthInitialized) {
+//         clearInterval(interval);
+//       }
+//     }
+//   }, 100);
+
+//   setTimeout(() => clearInterval(interval), 5000);
+// }
+
+// if (document.readyState === "complete" || document.readyState === "interactive") {
+//   ensureGoogleAuthReady();
+// } else {
+//   document.addEventListener("DOMContentLoaded", () => {
+//     ensureGoogleAuthReady();
+//   });
+// }
 
 // ─── USER STATE ──────────────────────────────────────────────────────────────
 

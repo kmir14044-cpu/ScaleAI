@@ -179,7 +179,41 @@ async def remove_bg(
             "X-Plan": user.plan,
         }
     )
+class GoogleTokenRequest(BaseModel):
+    access_token: str
 
+@app.post("/auth/google-token")
+async def google_token_auth(body: GoogleTokenRequest, db: Session = Depends(get_db)):
+    import httpx
+    async with httpx.AsyncClient() as client:
+        r = await client.get(
+            "https://www.googleapis.com/oauth2/v3/userinfo",
+            headers={"Authorization": f"Bearer {body.access_token}"}
+        )
+    if r.status_code != 200:
+        raise HTTPException(status_code=401, detail="Invalid Google token")
+
+    info = r.json()
+    google_id = info["sub"]
+    email = info["email"]
+    name = info.get("name", "")
+    avatar = info.get("picture", "")
+
+    user = db.query(User).filter(User.google_id == google_id).first()
+    if not user:
+        user = db.query(User).filter(User.email == email).first()
+        if user:
+            user.google_id = google_id
+            user.avatar = avatar
+        else:
+            user = User(email=email, name=name, avatar=avatar,
+                       google_id=google_id, plan="free", images_used_this_month=0)
+            db.add(user)
+    db.commit()
+    db.refresh(user)
+
+    token = create_access_token(user.id)
+    return {"token": token, "user": _user_dict(user)}
 # ─── UPGRADE ROUTE (Stripe webhook goes here later) ──────────────────────────
 
 @app.post("/upgrade")
