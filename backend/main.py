@@ -23,6 +23,7 @@ app.add_middleware(
     allow_origins=[
         "http://127.0.0.1:3000",
         "http://localhost:3000",
+        "https://scale-ai-5k3b.vercel.app"
     ],
     allow_origin_regex=r"https://.*\.vercel\.app",
     allow_credentials=True,
