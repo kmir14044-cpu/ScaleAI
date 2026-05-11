@@ -5,13 +5,8 @@
   <meta charset="utf-8" />
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-    rel="stylesheet" />
-
-  <link
-    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-    rel="stylesheet" />
-
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 
   <script id="tailwind-config">
@@ -37,39 +32,192 @@
 
 <body class="bg-background text-black">
 
-  <!-- HEADER -->
-  <header class="fixed top-0 w-full z-50 bg-white/80 glass-header border-b border-gray-100 h-20">
+  <!-- AUTH MODAL -->
+  <div id="authModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center">
+    <!-- BACKDROP -->
+    <div id="authBackdrop" class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
 
-    <div class="max-w-[1100px] mx-auto px-6 flex items-center justify-between h-full">
+    <!-- CARD -->
+    <div class="relative bg-white rounded-[32px] shadow-2xl w-full max-w-md mx-4 p-10 z-10">
 
-      <div class="text-2xl font-bold">
-        Clarify AI
+      <!-- CLOSE -->
+      <button id="closeAuthModal" class="absolute top-5 right-5 text-gray-400 hover:text-black transition">
+        <span class="material-symbols-outlined text-2xl">close</span>
+      </button>
+
+      <!-- LOGO -->
+      <div class="text-2xl font-bold mb-2">Clarify AI</div>
+
+      <!-- TABS -->
+      <div class="flex gap-6 border-b border-gray-100 mb-8">
+        <button id="tabLogin" class="auth-tab active pb-3 text-sm font-semibold text-secondary border-b-2 border-secondary">
+          Log In
+        </button>
+        <button id="tabRegister" class="auth-tab pb-3 text-sm font-semibold text-gray-400 border-b-2 border-transparent">
+          Sign Up
+        </button>
       </div>
 
-      <nav class="hidden md:flex items-center gap-10">
-        <a href="#" class="hover:text-secondary transition">
-          Features
-        </a>
+      <!-- GOOGLE BUTTON -->
+      <button id="googleAuthBtn"
+        class="w-full flex items-center justify-center gap-3 border border-gray-200 rounded-2xl py-3.5 text-sm font-semibold hover:bg-gray-50 transition mb-6">
+        <svg class="w-5 h-5" viewBox="0 0 24 24">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+        </svg>
+        Continue with Google
+      </button>
 
-        <a href="#" class="hover:text-secondary transition">
-          Pricing
-        </a>
-      </nav>
+      <!-- DIVIDER -->
+      <div class="flex items-center gap-3 mb-6">
+        <div class="flex-1 h-px bg-gray-100"></div>
+        <span class="text-xs text-gray-400 font-medium">or</span>
+        <div class="flex-1 h-px bg-gray-100"></div>
+      </div>
 
-      <div class="flex items-center gap-4">
+      <!-- FORM -->
+      <div id="authForm">
 
-        <button class="px-4 py-2">
-          Login
-        </button>
+        <!-- NAME (register only) -->
+        <div id="nameField" class="hidden mb-4">
+          <label class="text-xs font-semibold text-gray-500 mb-1.5 block">Full Name</label>
+          <input id="authName" type="text" placeholder="Your name"
+            class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-secondary transition" />
+        </div>
 
-        <button class="bg-secondary text-white px-6 py-3 rounded-xl font-semibold">
-          Get Started
+        <!-- EMAIL -->
+        <div class="mb-4">
+          <label class="text-xs font-semibold text-gray-500 mb-1.5 block">Email</label>
+          <input id="authEmail" type="email" placeholder="you@example.com"
+            class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-secondary transition" />
+        </div>
+
+        <!-- PASSWORD -->
+        <div class="mb-6">
+          <label class="text-xs font-semibold text-gray-500 mb-1.5 block">Password</label>
+          <input id="authPassword" type="password" placeholder="••••••••"
+            class="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-secondary transition" />
+        </div>
+
+        <!-- ERROR -->
+        <p id="authError" class="text-red-500 text-sm mb-4 hidden"></p>
+
+        <!-- SUBMIT -->
+        <button id="authSubmit"
+          class="w-full bg-secondary text-white py-3.5 rounded-2xl font-semibold text-sm hover:bg-blue-700 transition">
+          Log In
         </button>
 
       </div>
 
     </div>
+  </div>
 
+  <!-- UPGRADE MODAL -->
+  <div id="upgradeModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center">
+    <div id="upgradeBackdrop" class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+    <div class="relative bg-white rounded-[32px] shadow-2xl w-full max-w-md mx-4 p-10 z-10 text-center">
+      <button id="closeUpgradeModal" class="absolute top-5 right-5 text-gray-400 hover:text-black transition">
+        <span class="material-symbols-outlined text-2xl">close</span>
+      </button>
+
+      <div class="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-6">
+        <span class="material-symbols-outlined text-secondary text-3xl">workspace_premium</span>
+      </div>
+
+      <h2 class="text-3xl font-bold mb-3">Upgrade to Pro</h2>
+      <p class="text-gray-500 mb-8">You've used all 5 free images this month. Upgrade for unlimited access.</p>
+
+      <!-- PLANS -->
+      <div class="grid grid-cols-2 gap-4 mb-8 text-left">
+        <!-- FREE -->
+        <div class="border border-gray-200 rounded-2xl p-5">
+          <div class="text-sm font-semibold text-gray-500 mb-2">Free</div>
+          <div class="text-2xl font-bold mb-1">$0</div>
+          <div class="text-xs text-gray-400">5 images / month</div>
+        </div>
+        <!-- PRO -->
+        <div class="border-2 border-secondary rounded-2xl p-5 bg-blue-50">
+          <div class="text-sm font-semibold text-secondary mb-2">Pro ✦</div>
+          <div class="text-2xl font-bold mb-1">$9.99</div>
+          <div class="text-xs text-gray-400">Unlimited / month</div>
+        </div>
+      </div>
+
+      <button id="upgradeBtn"
+        class="w-full bg-secondary text-white py-4 rounded-2xl font-semibold hover:bg-blue-700 transition">
+        Upgrade Now — $9.99/mo
+      </button>
+      <p class="text-xs text-gray-400 mt-4">Stripe integration coming soon</p>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="fixed top-0 w-full z-50 bg-white/80 glass-header border-b border-gray-100 h-20">
+    <div class="max-w-[1100px] mx-auto px-6 flex items-center justify-between h-full">
+
+      <div class="text-2xl font-bold">Clarify AI</div>
+
+      <nav class="hidden md:flex items-center gap-10">
+        <a href="#" class="hover:text-secondary transition">Features</a>
+        <a href="#" class="hover:text-secondary transition">Pricing</a>
+      </nav>
+
+      <div class="flex items-center gap-4">
+
+        <!-- LOGGED OUT STATE -->
+        <div id="headerLoggedOut" class="flex items-center gap-4">
+          <button id="headerLoginBtn" class="px-4 py-2 font-medium hover:text-secondary transition">Login</button>
+          <button id="headerSignupBtn" class="bg-secondary text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition">
+            Get Started
+          </button>
+        </div>
+
+        <!-- LOGGED IN STATE -->
+        <div id="headerLoggedIn" class="hidden flex items-center gap-4">
+
+          <!-- USAGE PILL -->
+          <div id="usagePill" class="flex items-center gap-2 bg-gray-100 rounded-xl px-4 py-2 text-sm font-medium">
+            <span class="material-symbols-outlined text-base text-secondary">image</span>
+            <span id="usageText">0/5</span>
+          </div>
+
+          <!-- UPGRADE PILL (free only) -->
+          <button id="headerUpgradeBtn"
+            class="hidden bg-secondary text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-blue-700 transition">
+            Upgrade ✦
+          </button>
+
+          <!-- AVATAR -->
+          <div class="relative group">
+            <button id="avatarBtn"
+              class="w-10 h-10 rounded-full bg-secondary text-white flex items-center justify-center font-bold text-sm overflow-hidden">
+              <span id="avatarInitial">U</span>
+              <img id="avatarImg" class="hidden w-full h-full object-cover" />
+            </button>
+
+            <!-- DROPDOWN -->
+            <div id="userDropdown"
+              class="hidden absolute right-0 top-12 bg-white border border-gray-100 rounded-2xl shadow-xl w-56 p-2 z-50">
+              <div class="px-3 py-3 border-b border-gray-50 mb-1">
+                <div id="dropdownName" class="font-semibold text-sm"></div>
+                <div id="dropdownEmail" class="text-xs text-gray-400 truncate"></div>
+                <div id="dropdownPlan" class="mt-1 inline-block text-xs font-semibold px-2 py-0.5 rounded-lg bg-blue-50 text-secondary"></div>
+              </div>
+              <button id="logoutBtn"
+                class="w-full text-left px-3 py-2.5 text-sm text-red-500 hover:bg-red-50 rounded-xl transition flex items-center gap-2">
+                <span class="material-symbols-outlined text-base">logout</span>
+                Log out
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
   </header>
 
   <!-- MAIN -->
@@ -78,298 +226,149 @@
     <!-- HERO -->
     <section class="max-w-[1200px] mx-auto px-6 pb-24">
 
-      <!-- TITLE -->
       <div class="text-center mb-16">
-
         <h1 class="text-6xl font-bold mb-5 leading-tight">
-          Remove <span class="text-secondary font-bold">
-            Image
-          </span> Background
+          Remove <span class="text-secondary font-bold">Image</span> Background
         </h1>
-
         <p class="text-2xl text-gray-600">
-          100% automatically for
-          <span class="text-secondary font-bold">
-            Free
-          </span>
+          100% automatically for <span class="text-secondary font-bold">Free</span>
         </p>
-
       </div>
 
-      <!-- VIDEO + UPLOAD -->
       <div class="grid lg:grid-cols-2 gap-10 items-stretch">
 
         <!-- VIDEO -->
         <div class="h-[520px] rounded-[40px] overflow-hidden floating-shadow bg-gray-200">
-
           <video class="w-full h-full object-cover" autoplay muted loop playsinline>
             <source src="home-page-banner.mp4" type="video/mp4">
           </video>
-
         </div>
 
         <!-- UPLOAD -->
-        <div
+        <div id="uploadCard"
           class="h-[520px] bg-white rounded-[40px] floating-shadow border border-gray-200 flex flex-col justify-center items-center text-center p-10">
 
           <button id="uploadBtn"
             class="bg-secondary text-white px-12 py-5 rounded-2xl text-lg font-semibold flex items-center gap-3 hover:scale-[1.02] transition-all">
-
-            <span class="material-symbols-outlined text-[30px]">
-              upload
-            </span>
-
+            <span class="material-symbols-outlined text-[30px]">upload</span>
             Upload Image
-
           </button>
 
-          <p class="mt-6 text-gray-600">
-            or drag and drop images
-          </p>
+          <p class="mt-6 text-gray-600">or drag and drop images</p>
 
           <p class="mt-3 text-sm text-gray-500">
             Paste image or
-            <span class="border border-gray-300 px-2 py-1 rounded-lg">
-              Ctrl + V
-            </span>
+            <span class="border border-gray-300 px-2 py-1 rounded-lg">Ctrl + V</span>
           </p>
 
         </div>
 
       </div>
 
-      <!-- RESULT -->
       <div id="resultWrapper" class="mt-16 flex justify-center"></div>
 
     </section>
-<!-- COMPARISON SECTION -->
-<section class="py-20 bg-gray-50">
 
-  <div class="max-w-[1100px] mx-auto px-6">
-
-    <!-- HEADING -->
-    <div class="text-center mb-14">
-
-      <h2 class="text-5xl font-bold mb-5">
-  Remove Backgrounds in Seconds
-</h2>
-
-<p class="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-  Powered by advanced AI to deliver clean, accurate cutouts
-  for people, products, and detailed objects.
-</p>
-
-    </div>
-
-    <!-- SLIDER -->
-    <div
-      id="comparisonSlider"
-      class="relative w-full h-[430px] rounded-[40px] overflow-hidden shadow-2xl select-none bg-white"
-    >
-
-      <!-- ORIGINAL WRAPPER -->
-      <div
-        id="beforeWrapper"
-        class="absolute top-0 left-0 h-full overflow-hidden"
-        style="width:50%;"
-      >
-
-        <img
-          src="1.jpg"
-          id="beforeImage"
-          class="absolute top-0 left-0 w-full h-full object-cover"
-        />
-
-      </div>
-
-      <!-- NEW IMAGE WRAPPER -->
-      <div
-        id="afterWrapper"
-        class="absolute top-0 right-0 h-full overflow-hidden"
-        style="width:50%;"
-      >
-
-        <img
-          src="2.png"
-          id="afterImage"
-          class="absolute top-0 right-0 w-full h-full object-cover"
-        />
-
-      </div>
-
-      <!-- CENTER LINE -->
-      <div
-        id="sliderLine"
-        class="absolute top-0 bottom-0 w-1 bg-white z-20"
-        style="left:50%; transform:translateX(-50%);"
-      ></div>
-
-      <!-- BUTTON -->
-      <div
-        id="sliderButton"
-        class="absolute top-1/2 z-30 w-14 h-14 rounded-full bg-white border-4 border-white shadow-2xl flex items-center justify-center cursor-ew-resize"
-        style="left:50%; transform:translate(-50%, -50%);"
-      >
-
-        <span class="material-symbols-outlined text-secondary text-3xl">
-          drag_indicator
-        </span>
-
-      </div>
-
-      <!-- LABELS -->
-      <div class="absolute bottom-5 left-5 z-30">
-        <div class="bg-black/60 text-white px-4 py-2 rounded-xl font-semibold text-sm">
-          Original
-        </div>
-      </div>
-
-      <div class="absolute bottom-5 right-5 z-30">
-        <div class="bg-secondary text-white px-4 py-2 rounded-xl font-semibold text-sm">
-          Clean Cut
-        </div>
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-<!-- FEATURES SECTION -->
-<section class="py-24 bg-[#f7f7fb] border-t border-gray-100">
-
-  <div class="max-w-[1200px] mx-auto px-6">
-
-    <!-- GRID -->
-    <div class="grid md:grid-cols-3 gap-10">
-
-      <!-- CARD 1 -->
-      <div
-        class="bg-white rounded-[30px] p-10 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300"
-      >
-
-        <!-- ICON -->
-        <div
-          class="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center mb-8"
-        >
-
-          <span class="material-symbols-outlined text-secondary text-3xl">
-            auto_awesome
-          </span>
-
+    <!-- COMPARISON SECTION -->
+    <section class="py-20 bg-gray-50">
+      <div class="max-w-[1100px] mx-auto px-6">
+        <div class="text-center mb-14">
+          <h2 class="text-5xl font-bold mb-5">Remove Backgrounds in Seconds</h2>
+          <p class="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+            Powered by advanced AI to deliver clean, accurate cutouts for people, products, and detailed objects.
+          </p>
         </div>
 
-        <!-- TITLE -->
-        <h3 class="text-4xl font-bold mb-5">
-          AI Precision
-        </h3>
+        <div id="comparisonSlider"
+          class="relative w-full h-[430px] rounded-[40px] overflow-hidden shadow-2xl select-none bg-white">
 
-        <!-- TEXT -->
-        <p class="text-gray-600 text-lg leading-relaxed">
-          Advanced AI models trained on millions of images
-          to deliver clean, accurate background removal
-          with fine edge detection.
-        </p>
+          <div id="beforeWrapper" class="absolute top-0 left-0 h-full overflow-hidden" style="width:50%;">
+            <img src="1.jpg" id="beforeImage" class="absolute top-0 left-0 w-full h-full object-cover" />
+          </div>
 
-      </div>
+          <div id="afterWrapper" class="absolute top-0 right-0 h-full overflow-hidden" style="width:50%;">
+            <img src="2.png" id="afterImage" class="absolute top-0 right-0 w-full h-full object-cover" />
+          </div>
 
-      <!-- CARD 2 -->
-      <div
-        class="bg-white rounded-[30px] p-10 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300"
-      >
+          <div id="sliderLine" class="absolute top-0 bottom-0 w-1 bg-white z-20" style="left:50%; transform:translateX(-50%);"></div>
 
-        <!-- ICON -->
-        <div
-          class="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center mb-8"
-        >
+          <div id="sliderButton"
+            class="absolute top-1/2 z-30 w-14 h-14 rounded-full bg-white border-4 border-white shadow-2xl flex items-center justify-center cursor-ew-resize"
+            style="left:50%; transform:translate(-50%, -50%);">
+            <span class="material-symbols-outlined text-secondary text-3xl">drag_indicator</span>
+          </div>
 
-          <span class="material-symbols-outlined text-secondary text-3xl">
-            bolt
-          </span>
+          <div class="absolute bottom-5 left-5 z-30">
+            <div class="bg-black/60 text-white px-4 py-2 rounded-xl font-semibold text-sm">Original</div>
+          </div>
+          <div class="absolute bottom-5 right-5 z-30">
+            <div class="bg-secondary text-white px-4 py-2 rounded-xl font-semibold text-sm">Clean Cut</div>
+          </div>
 
         </div>
-
-        <!-- TITLE -->
-        <h3 class="text-4xl font-bold mb-5">
-          Lightning Speed
-        </h3>
-
-        <!-- TEXT -->
-        <p class="text-gray-600 text-lg leading-relaxed">
-          Remove backgrounds in seconds with optimized
-          AI processing designed for smooth and fast
-          performance.
-        </p>
-
       </div>
+    </section>
 
-      <!-- CARD 3 -->
-      <div
-        class="bg-white rounded-[30px] p-10 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300"
-      >
+    <!-- FEATURES SECTION -->
+    <section class="py-24 bg-[#f7f7fb] border-t border-gray-100">
+      <div class="max-w-[1200px] mx-auto px-6">
+        <div class="grid md:grid-cols-3 gap-10">
 
-        <!-- ICON -->
-        <div
-          class="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center mb-8"
-        >
+          <div class="bg-white rounded-[30px] p-10 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300">
+            <div class="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center mb-8">
+              <span class="material-symbols-outlined text-secondary text-3xl">auto_awesome</span>
+            </div>
+            <h3 class="text-4xl font-bold mb-5">AI Precision</h3>
+            <p class="text-gray-600 text-lg leading-relaxed">
+              Advanced AI models trained on millions of images to deliver clean, accurate background removal with fine edge detection.
+            </p>
+          </div>
 
-          <span class="material-symbols-outlined text-secondary text-3xl">
-            stacks
-          </span>
+          <div class="bg-white rounded-[30px] p-10 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300">
+            <div class="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center mb-8">
+              <span class="material-symbols-outlined text-secondary text-3xl">bolt</span>
+            </div>
+            <h3 class="text-4xl font-bold mb-5">Lightning Speed</h3>
+            <p class="text-gray-600 text-lg leading-relaxed">
+              Remove backgrounds in seconds with optimized AI processing designed for smooth and fast performance.
+            </p>
+          </div>
+
+          <div class="bg-white rounded-[30px] p-10 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300">
+            <div class="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center mb-8">
+              <span class="material-symbols-outlined text-secondary text-3xl">stacks</span>
+            </div>
+            <h3 class="text-4xl font-bold mb-5">Batch Processing</h3>
+            <p class="text-gray-600 text-lg leading-relaxed">
+              Process multiple images effortlessly and save time with efficient automated workflows.
+            </p>
+          </div>
 
         </div>
-
-        <!-- TITLE -->
-        <h3 class="text-4xl font-bold mb-5">
-          Batch Processing
-        </h3>
-
-        <!-- TEXT -->
-        <p class="text-gray-600 text-lg leading-relaxed">
-          Process multiple images effortlessly and save
-          time with efficient automated workflows.
-        </p>
-
       </div>
+    </section>
 
-    </div>
-
-  </div>
-
-</section>
   </main>
 
   <!-- FOOTER -->
   <footer class="border-t border-gray-100 py-12">
-
     <div class="max-w-[1300px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-
       <div class="text-center md:text-left">
-        <div class="text-2xl font-bold">
-          Clarify AI
-        </div>
-
-        <p class="text-gray-500 mt-2">
-          © 2026 Clarify AI. All rights reserved.
-        </p>
+        <div class="text-2xl font-bold">Clarify AI</div>
+        <p class="text-gray-500 mt-2">© 2026 Clarify AI. All rights reserved.</p>
       </div>
-
       <div class="flex gap-6 text-gray-600">
         <a href="#">Privacy</a>
         <a href="#">Terms</a>
         <a href="#">Contact</a>
       </div>
-
     </div>
-
   </footer>
 
-  <!-- FILE INPUT -->
   <input type="file" id="imageUpload" accept="image/*" class="hidden" />
 
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="main.js" type="module"></script>
   <script src="slider.js"></script>
 </body>
-</body>
-
 </html>
