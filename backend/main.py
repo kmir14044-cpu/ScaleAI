@@ -30,12 +30,20 @@ rembg_session = new_session("u2netp")
 #     allow_methods=["*"],
 #     allow_headers=["*"],
 # )
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=["*"],
+#     allow_credentials=False,
+#     allow_methods=["*"],
+#     allow_headers=["*"],
+# )
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["X-Images-Used", "X-Images-Limit", "X-Plan"],
 )
 # ─── SCHEMAS ────────────────────────────────────────────────────────────────
 
