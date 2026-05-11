@@ -1,7 +1,7 @@
 const API = "https://scaleai-production-4db1.up.railway.app";
 
 // const API = "http://127.0.0.1:8000";
-const GOOGLE_CLIENT_ID = "929736577941-965n895k7lm97j4b0u2k23vi9mg3s7um.apps.googleusercontent.com";
+const GOOGLE_CLIENT_ID = "667340206192-na2o3d4h5n0dr7lld6knpd40qrktcalq.apps.googleusercontent.com";
 
 // ─── STATE ───────────────────────────────────────────────────────────────────
 
