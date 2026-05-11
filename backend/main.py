@@ -18,19 +18,25 @@ app = FastAPI(title="Clarify AI")
 rembg_session = new_session("u2netp")
 
 # CORS
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=[
+#         "http://127.0.0.1:3000",
+#         "http://localhost:3000",
+#         "https://scale-ai-5k3b.vercel.app"
+#     ],
+#     allow_origin_regex=r"https://.*\.vercel\.app",
+#     allow_credentials=True,
+#     allow_methods=["*"],
+#     allow_headers=["*"],
+# )
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://127.0.0.1:3000",
-        "http://localhost:3000",
-        "https://scale-ai-5k3b.vercel.app"
-    ],
-    allow_origin_regex=r"https://.*\.vercel\.app",
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 # ─── SCHEMAS ────────────────────────────────────────────────────────────────
 
 class RegisterRequest(BaseModel):
