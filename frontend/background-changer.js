@@ -50,17 +50,32 @@ changeBgBtn.addEventListener("click", async () => {
     formData.append("file", uploadedFile);
     formData.append("bg_color", bgColor.value);
 
-    const response = await fetch(API + "/change-background", {
-      method: "POST",
-      body: formData
-    });
+    console.log("Selected color:", bgColor.value);
+
+    const response = await fetch(
+      `${API}/change-background`,
+      {
+        method: "POST",
+        body: formData
+      }
+    );
+
+    console.log("Status:", response.status);
 
     if (!response.ok) {
-      throw new Error("Failed");
+      const errorText = await response.text();
+      console.error("Backend Error:", errorText);
+
+      throw new Error(
+        `Server Error: ${response.status}`
+      );
     }
 
     const blob = await response.blob();
-    const imageURL = URL.createObjectURL(blob);
+    console.log("Blob received:", blob);
+
+    const imageURL =
+      URL.createObjectURL(blob);
 
     previewBox.innerHTML = `
       <img
@@ -70,14 +85,25 @@ changeBgBtn.addEventListener("click", async () => {
     `;
 
     downloadBtn.href = imageURL;
-    downloadBtn.download = "background-changed.png";
-    downloadBtn.classList.remove("hidden");
+    downloadBtn.download =
+      "background-changed.png";
+
+    downloadBtn.classList.remove(
+      "hidden"
+    );
 
   } catch (err) {
+    console.error(err);
+
     previewBox.innerHTML = `
-      <p class="text-red-500">
-        Failed to change background
-      </p>
+      <div class="text-center">
+        <p class="text-red-500 font-semibold">
+          Failed to change background
+        </p>
+        <p class="text-sm text-gray-400 mt-2">
+          ${err.message}
+        </p>
+      </div>
     `;
   }
 });
