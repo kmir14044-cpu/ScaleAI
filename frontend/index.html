@@ -160,10 +160,79 @@
 
       <div class="text-2xl font-bold">Clarify AI</div>
 
-      <nav class="hidden md:flex items-center gap-10">
-        <a href="#" class="hover:text-secondary transition">Features</a>
-        <a href="#" class="hover:text-secondary transition">Pricing</a>
-      </nav>
+     <nav class="hidden md:flex items-center gap-10">
+
+  <!-- FEATURES DROPDOWN -->
+  <div class="relative group">
+    <button class="flex items-center gap-1 hover:text-secondary transition">
+      Features
+      <span class="material-symbols-outlined text-[18px]">
+        expand_more
+      </span>
+    </button>
+
+    <!-- DROPDOWN -->
+    <div class="absolute top-8 left-0 w-72 bg-white border border-gray-100 rounded-2xl shadow-xl p-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+
+      <!-- BACKGROUND REMOVER -->
+      <a href="index.html"
+        class="flex items-start gap-4 p-4 rounded-2xl hover:bg-gray-50 transition">
+        <span class="material-symbols-outlined text-secondary text-2xl">
+          auto_awesome
+        </span>
+
+        <div>
+          <h4 class="font-semibold">
+            Background Remover
+          </h4>
+          <p class="text-sm text-gray-500">
+            Remove image backgrounds instantly.
+          </p>
+        </div>
+      </a>
+
+      <!-- BACKGROUND CHANGER -->
+      <a href="background-changer.html"
+        class="flex items-start gap-4 p-4 rounded-2xl hover:bg-gray-50 transition">
+        <span class="material-symbols-outlined text-secondary text-2xl">
+          palette
+        </span>
+
+        <div>
+          <h4 class="font-semibold">
+            Background Changer
+          </h4>
+          <p class="text-sm text-gray-500">
+            Replace backgrounds with custom colors.
+          </p>
+        </div>
+      </a>
+
+      <!-- UPSCALER -->
+      <a href="upscaler.html"
+        class="flex items-start gap-4 p-4 rounded-2xl hover:bg-gray-50 transition">
+        <span class="material-symbols-outlined text-secondary text-2xl">
+          high_quality
+        </span>
+
+        <div>
+          <h4 class="font-semibold">
+            HD / 4K Upscaler
+          </h4>
+          <p class="text-sm text-gray-500">
+            Improve image quality instantly.
+          </p>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <a href="#" class="hover:text-secondary transition">
+    Pricing
+  </a>
+
+</nav>
 
       <div class="flex items-center gap-4">
 
@@ -256,7 +325,7 @@
           </button>
           <div class="flex gap-4 justify-center mt-8 flex-wrap">
   
-  <a href="background-changer.html"
+  <!-- <a href="background-changer.html"
     class="bg-black text-white px-8 py-4 rounded-2xl font-semibold hover:bg-gray-800 transition flex items-center gap-2">
     <span class="material-symbols-outlined">image</span>
     Background Changer
@@ -266,7 +335,7 @@
     class="bg-secondary text-white px-8 py-4 rounded-2xl font-semibold hover:bg-blue-700 transition flex items-center gap-2">
     <span class="material-symbols-outlined">high_quality</span>
     HD / 4K Upscaler
-  </a>
+  </a> -->
 
 </div>
 
@@ -403,7 +472,66 @@
               Process multiple images effortlessly and save time with efficient automated workflows.
             </p>
           </div>
+<div class="bg-white rounded-[30px] p-10 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300">
+  <div class="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center mb-8">
+    <span class="material-symbols-outlined text-secondary text-3xl">cut</span>
+  </div>
 
+  <h3 class="text-4xl font-bold mb-5">
+    Background Remover
+  </h3>
+
+  <p class="text-gray-600 text-lg leading-relaxed mb-6">
+    Remove backgrounds in seconds with AI.
+  </p>
+<br> 
+  <a href="index.html"
+    class="inline-flex items-center gap-2 bg-secondary text-white px-6 py-3 rounded-2xl font-semibold hover:shadow-xl transition">
+    <span class="material-symbols-outlined">image</span>
+    Try Tool
+  </a>
+</div>
+          <!-- BACKGROUND CHANGER -->
+<div class="bg-white rounded-[30px] p-10 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300">
+  <div class="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center mb-8">
+    <span class="material-symbols-outlined text-secondary text-3xl">palette</span>
+  </div>
+
+  <h3 class="text-4xl font-bold mb-5">
+    Background Changer
+  </h3>
+
+  <p class="text-gray-600 text-lg leading-relaxed mb-6">
+    Instantly replace image backgrounds with any custom color using AI.
+  </p>
+
+  <a href="background-changer.html"
+    class="inline-flex items-center gap-2 bg-secondary text-white px-6 py-3 rounded-2xl font-semibold hover:shadow-xl transition">
+    <span class="material-symbols-outlined">image</span>
+    Try Tool
+  </a>
+</div>
+
+<!-- HD / 4K UPSCALER -->
+<div class="bg-white rounded-[30px] p-10 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300">
+  <div class="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center mb-8">
+    <span class="material-symbols-outlined text-secondary text-3xl">high_quality</span>
+  </div>
+
+  <h3 class="text-4xl font-bold mb-5">
+    HD / 4K Upscaler
+  </h3>
+
+  <p class="text-gray-600 text-lg leading-relaxed mb-6">
+    Enhance image quality, sharpen details, and upscale photos to HD or 4K resolution in seconds.
+  </p>
+
+  <a href="upscaler.html"
+    class="inline-flex items-center gap-2 bg-secondary text-white px-6 py-3 rounded-2xl font-semibold hover:bg-blue-700 transition">
+    <span class="material-symbols-outlined">high_quality</span>
+    Try Tool
+  </a>
+</div>
         </div>
       </div>
     </section>
