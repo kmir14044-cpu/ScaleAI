@@ -12,3 +12,5 @@ python-jose[cryptography]
 pydantic[email]
 google-auth
 httpx
+realesrgan
+opencv-python
