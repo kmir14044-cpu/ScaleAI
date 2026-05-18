@@ -10,7 +10,23 @@
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
 
   <script src="https://cdn.tailwindcss.com"></script>
-
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#000000",
+            secondary: "#0058bc",
+            background: "#faf9fe",
+            surface: "#ffffff",
+            outline: "#d6d6d6",
+            muted: "#6b7280"
+          }
+        }
+      }
+    }
+  </script>
   <style>
     body {
       font-family: Inter, sans-serif;
@@ -28,7 +44,7 @@
       </a>
 
       <a href="index.html"
-        class="px-5 py-2 rounded-xl border hover:bg-gray-100 transition">
+        class="px-5 py-2 rounded-xl  bg-secondary text-white  border hover:shadow-xl transition">
         Back
       </a>
     </div>
