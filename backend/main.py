@@ -230,42 +230,7 @@ async def google_token_auth(body: GoogleTokenRequest, db: Session = Depends(get_
     token = create_access_token(user.id)
     return {"token": token, "user": _user_dict(user)}
 # ─── UPGRADE ROUTE (Stripe webhook goes here later) ──────────────────────────
-from fastapi import UploadFile, File
-from fastapi.responses import FileResponse
-from PIL import Image
-from realesrgan import RealESRGAN
-import torch
-import uuid
 
-@app.post("/upscale")
-async def upscale(file: UploadFile = File(...)):
-
-    temp_input = f"temp_{uuid.uuid4()}.png"
-    temp_output = f"upscaled_{uuid.uuid4()}.png"
-
-    with open(temp_input, "wb") as f:
-        f.write(await file.read())
-
-    device = torch.device(
-        "cuda" if torch.cuda.is_available()
-        else "cpu"
-    )
-
-    model = RealESRGAN(device, scale=2)
-    model.load_weights(
-        "weights/RealESRGAN_x2.pth"
-    )
-
-    image = Image.open(temp_input).convert("RGB")
-
-    sr_image = model.predict(image)
-
-    sr_image.save(temp_output)
-
-    return FileResponse(
-        temp_output,
-        media_type="image/png"
-    )
 @app.post("/upgrade")
 async def upgrade_plan(user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     """Placeholder — connect Stripe checkout here."""
