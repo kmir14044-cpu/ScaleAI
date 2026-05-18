@@ -7,7 +7,7 @@ from rembg import remove, new_session
 import io
 from PIL import Image
 from database import get_db, User
-from fastapi import Formpipythonp install realesrgan pillow opencv-
+from fastapi import Formpipythonp 
 from auth import (
     hash_password, verify_password, create_access_token,
     get_current_user, check_and_increment_usage
