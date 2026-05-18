@@ -12,4 +12,3 @@ python-jose[cryptography]
 pydantic[email]
 google-auth
 httpx
-opencv-python-headless
