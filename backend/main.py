@@ -5,8 +5,9 @@ from pydantic import BaseModel, EmailStr
 from sqlalchemy.orm import Session
 from rembg import remove, new_session
 import io
-
+from PIL import Image
 from database import get_db, User
+from fastapi import Form
 from auth import (
     hash_password, verify_password, create_access_token,
     get_current_user, check_and_increment_usage
@@ -234,7 +235,44 @@ async def google_token_auth(body: GoogleTokenRequest, db: Session = Depends(get_
 async def upgrade_plan(user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     """Placeholder — connect Stripe checkout here."""
     return {"message": "Stripe integration coming soon", "current_plan": user.plan}
+@app.post("/change-background")
+async def change_background(
+    file: UploadFile = File(...),
+    bg_color: str = Form("#ffffff")
+):
+    try:
+        input_bytes = await file.read()
 
+        removed = remove(input_bytes, session=rembg_session)
+
+        foreground = Image.open(io.BytesIO(removed)).convert("RGBA")
+
+        background = Image.new(
+            "RGBA",
+            foreground.size,
+            bg_color
+        )
+
+        final_image = Image.alpha_composite(
+            background,
+            foreground
+        )
+
+        output = io.BytesIO()
+        final_image.save(output, format="PNG")
+        output.seek(0)
+
+        return StreamingResponse(
+            output,
+            media_type="image/png"
+        )
+
+    except Exception as e:
+        print(e)
+        raise HTTPException(
+            status_code=500,
+            detail="Background change failed"
+        )
 # ─── HELPER ─────────────────────────────────────────────────────────────────
 
 def _user_dict(user: User) -> dict:
