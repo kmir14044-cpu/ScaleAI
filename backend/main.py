@@ -287,3 +287,59 @@ def _user_dict(user: User) -> dict:
         "images_used": user.images_used_this_month,
         "images_limit": limit if limit != float("inf") else -1,
     }
+from fastapi.responses import StreamingResponse
+from PIL import Image, ImageEnhance
+import io
+
+
+@app.post("/upscale")
+async def upscale(
+    file: UploadFile = File(...)
+):
+    try:
+        image_bytes = await file.read()
+
+        image = Image.open(
+            io.BytesIO(image_bytes)
+        ).convert("RGB")
+
+        # 2x upscale
+        new_size = (
+            image.width * 2,
+            image.height * 2
+        )
+
+        upscaled = image.resize(
+            new_size,
+            Image.Resampling.LANCZOS
+        )
+
+        # little sharpening
+        sharpener = ImageEnhance.Sharpness(
+            upscaled
+        )
+
+        upscaled = sharpener.enhance(1.5)
+
+        output = io.BytesIO()
+
+        upscaled.save(
+            output,
+            format="PNG",
+            quality=95
+        )
+
+        output.seek(0)
+
+        return StreamingResponse(
+            output,
+            media_type="image/png"
+        )
+
+    except Exception as e:
+        print("Upscale error:", e)
+
+        raise HTTPException(
+            status_code=500,
+            detail="Image enhancement failed"
+        )
