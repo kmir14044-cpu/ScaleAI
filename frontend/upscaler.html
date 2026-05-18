@@ -11,7 +11,23 @@
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
 
   <script src="https://cdn.tailwindcss.com"></script>
-
+ <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#000000",
+            secondary: "#0058bc",
+            background: "#faf9fe",
+            surface: "#ffffff",
+            outline: "#d6d6d6",
+            muted: "#6b7280"
+          }
+        }
+      }
+    }
+  </script>
   <style>
     body {
       font-family: "Inter", sans-serif;
@@ -26,19 +42,19 @@
   <header class="border-b bg-white">
     <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
 
-      <a href="index.html" class="text-2xl font-bold">
+      <a href="index.html" class="text-2xl font-bold color-[#0058bc]">
         Clarify AI
       </a>
 
       <div class="flex items-center gap-4">
 
         <a href="index.html"
-          class="px-5 py-2 rounded-xl border hover:bg-gray-100 transition">
+          class="px-5 py-2 rounded-xl text-white bg-[#0058bc]  border hover:bg-blue-700  transition">
           Background Remover
         </a>
 
         <a href="background-changer.html"
-          class="px-5 py-2 rounded-xl border hover:bg-gray-100 transition">
+          class="px-5 py-2 rounded-xl text-white bg-[#0058bc]  border hover:bg-blue-700 transition">
           Background Changer
         </a>
 
@@ -52,7 +68,7 @@
 
     <div class="text-center mb-12">
       <h1 class="text-5xl font-bold mb-4">
-        AI HD Image Upscaler
+        HD <span class="text-secondary font-bold">Image</span> Upscaler
       </h1>
 
       <p class="text-gray-500 text-xl">
