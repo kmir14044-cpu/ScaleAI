@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>HD Image Upscaler - Clarify AI</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      font-family: "Inter", sans-serif;
+      background: #faf9fe;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="border-b bg-white">
+    <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+
+      <a href="index.html" class="text-2xl font-bold">
+        Clarify AI
+      </a>
+
+      <div class="flex items-center gap-4">
+
+        <a href="index.html"
+          class="px-5 py-2 rounded-xl border hover:bg-gray-100 transition">
+          Background Remover
+        </a>
+
+        <a href="background-changer.html"
+          class="px-5 py-2 rounded-xl border hover:bg-gray-100 transition">
+          Background Changer
+        </a>
+
+      </div>
+
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="max-w-6xl mx-auto px-6 py-20">
+
+    <div class="text-center mb-12">
+      <h1 class="text-5xl font-bold mb-4">
+        AI HD Image Upscaler
+      </h1>
+
+      <p class="text-gray-500 text-xl">
+        Enhance image quality and upscale to HD instantly
+      </p>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-10">
+
+      <!-- UPLOAD -->
+      <div class="bg-white rounded-[40px] border p-10 shadow-sm">
+
+        <input
+          type="file"
+          id="imageInput"
+          accept="image/*"
+          class="hidden"
+        />
+
+        <button
+          id="uploadBtn"
+          class="w-full h-[350px] border-2 border-dashed rounded-[30px] flex flex-col items-center justify-center hover:bg-blue-50 transition">
+
+          <span class="material-symbols-outlined text-7xl text-gray-400">
+            upload
+          </span>
+
+          <p class="font-semibold text-xl mt-4">
+            Upload Image
+          </p>
+
+          <p class="text-gray-500">
+            PNG, JPG supported
+          </p>
+        </button>
+
+      </div>
+
+      <!-- RESULT -->
+      <div class="bg-white rounded-[40px] border p-10 shadow-sm">
+
+        <div
+          id="previewBox"
+          class="h-[350px] rounded-[30px] bg-gray-100 flex items-center justify-center overflow-hidden">
+
+          <p class="text-gray-400">
+            Preview appears here
+          </p>
+
+        </div>
+
+        <button
+          id="upscaleBtn"
+          class="w-full bg-[#0058bc] text-white py-4 rounded-2xl font-semibold mt-5 hover:bg-blue-700 transition">
+
+          Enhance to HD
+
+        </button>
+
+        <a
+          id="downloadBtn"
+          class="hidden w-full bg-black text-white py-4 rounded-2xl font-semibold mt-4 text-center block">
+          Download HD Image
+        </a>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <script src="upscaler.js"></script>
+
+</body>
+</html>
